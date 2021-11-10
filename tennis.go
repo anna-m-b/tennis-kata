@@ -11,7 +11,7 @@ type Game struct {
 	PlayerB int
 }
 
-var score = [6]string{"love", "15", "30", "40", "deuce", "advantage"}
+var score = [6]string{"love", "15", "30", "40", "advantage", "win"}
 
 func NewGame() *Game {
 	return &Game{
@@ -26,8 +26,31 @@ func (g *Game) Play() {
 	fmt.Print(scorer)
 	if scorer == 0 {
 		g.PlayerA = g.PlayerA + 1
+		g.HasPlayerWon("A")
 	} else {
 		g.PlayerB = g.PlayerB + 1
+		g.HasPlayerWon("B")
+	}
+}
+
+func (g *Game) HasPlayerWon(p string) bool {
+	var result bool
+
+	if p == "A" {
+		result = (g.PlayerA >= 4) && (g.PlayerA-g.PlayerB >= 2)
+	} else if p == "B" {
+		result = (g.PlayerB >= 4) && (g.PlayerB-g.PlayerA >= 2)
 	}
 
+	return result
 }
+
+// log score
+
+// should player score reduce
+
+// if they had 2 and other has >=2
+// if they had advantage
+
+// isItDeuce
+// the other player has 3 and now so does this one

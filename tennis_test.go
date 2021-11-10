@@ -2,15 +2,9 @@ package tennis
 
 import (
 	"fmt"
-	
+
 	"testing"
 )
-
-// game
-// - playerA: "love", "15", "30", "40", "deuce", "advantage"
-// - playerB
-// play() -randomly move one player one point along
-// completeGame() - returns winner
 
 func TestNewGame(t *testing.T) {
 	g := NewGame()
@@ -46,8 +40,28 @@ func TestPlayIncreaesOnePlayersScore(t *testing.T) {
 
 }
 
-func TestPlayChangesScoresToDeuce(t *testing.T) {
+func TestHasPlayerWonWithFourPoints(t *testing.T) {
 	g := NewGame()
-	g.PlayerA = 3
+	g.PlayerA = 4
+	wantA := true
+	gotA := g.HasPlayerWon("A")
+	if !gotA {
+		t.Errorf("incorrect return value from HasPlayerWon: wanted %v, got %v", wantA, gotA)
+	}
+	wantB := true
+	gotB := g.HasPlayerWon("B")
+	if gotB {
+		t.Errorf("incorrect return value from HasPlayerWon: wanted %v, got %v", wantB, gotB)
+	}
+}
 
+func TestHasPlayerWonByTwoClearPoints(t *testing.T) {
+	g := NewGame()
+	g.PlayerA = 4
+	g.PlayerB = 3
+	want := false
+	got := g.HasPlayerWon("A")
+	if got {
+		t.Errorf("incorrect return value from HasPlayerWon: wanted %v, got %v", want, got)
+	}
 }
